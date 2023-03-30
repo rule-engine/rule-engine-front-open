@@ -126,7 +126,6 @@ export default {
 <style scoped lang="less">
 .standard-table {
   .alert {
-    margin-bottom: 16px;
 
     .message {
       a {
