@@ -18,7 +18,7 @@
                   autocomplete="autocomplete"
                   size="large"
                   placeholder="请输入用户名"
-                  v-decorator="['username', {initialValue:'lq',rules: [{ required: true, message: '请输入账户名', whitespace: true}]}]"
+                  v-decorator="['username', {initialValue:'admin',rules: [{ required: true, message: '请输入账户名', whitespace: true}]}]"
               >
                 <a-icon slot="prefix" type="user"/>
               </a-input>

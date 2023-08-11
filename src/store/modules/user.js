@@ -5,7 +5,7 @@ export default {
             // 用户ID
             id: 0,
             // 用户昵称
-            username: 'lq',
+            username: 'admin',
             // 性别
             sex: 0,
             // 个性签名
