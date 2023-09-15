@@ -279,7 +279,7 @@
 
             <a-input v-model="add.form.value" type="textarea" placeholder="变量值"
                      v-else-if="add.form.valueType==='COLLECTION'"/>
-            <a-input v-model="add.form.value" placeholder="请输入变量值" disabled
+            <a-input v-model="add.form.value" placeholder="请输入变量值"
                      v-else/>
           </a-form-model-item>
 
