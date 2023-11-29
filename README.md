@@ -8,7 +8,7 @@
 
 #### 业务逻辑实现不再依赖于代码开发，可零代码实现复杂业务逻辑。
 
-后端代码地址：... <br>
+后端代码地址：https://gitee.com/aizuda/rule-engine-open <br>
 项目展示地址：http://ruleengine.cn/
 
 ##### 联系方式：
