@@ -352,7 +352,7 @@
 import FooterToolBar from '@/components/tool/FooterToolBar'
 import PageLayout from "@/layouts/PageLayout";
 import Contextmenu from '@/components/menu/Contextmenu'
-import ConditionModal from "@/pages/rulemanagement/builtIncomponents/ConditionModal";
+import ConditionModal from "@/pages/components/condition/ConditionModal";
 
 // api
 import {saveOrUpdate, deleteConditionGroup} from '@/services/conditionGroup'
@@ -614,9 +614,7 @@ export default {
     deleteCondition(cgc, conditionGroupRefId, conditionId) {
       deleteCondition({
         conditionId: conditionId,
-        conditionGroupRefId: conditionGroupRefId,
-        dataId: this.generalRule.id,
-        dataType: this.dataType
+        conditionGroupRefId: conditionGroupRefId
       }).then(res => {
         if (res.data.data) {
           // 删除掉前端数组中的数据
@@ -723,8 +721,6 @@ export default {
         name: "条件组",
         ruleId: this.generalRule.ruleId,
         orderNo: newOrderNo,
-        dataType: this.dataType,
-        dataId: this.generalRule.id,
         conditionGroupCondition: []
       };
       saveOrUpdate(newConditionGroup).then(res => {
@@ -740,17 +736,13 @@ export default {
       saveOrUpdate({
         id: cg.id,
         ruleId: this.generalRule.ruleId,
-        dataType: this.dataType,
-        dataId: this.generalRule.id,
         name: cg.name
       });
     },
     deleteConditionGroup(cg) {
       // 删除条件组
       deleteConditionGroup({
-        id: cg.id,
-        dataType: this.dataType,
-        dataId: this.generalRule.id
+        id: cg.id
       }).then(res => {
         if (res.data.data) {
           this.generalRule.conditionGroup.forEach((value, index) => {
