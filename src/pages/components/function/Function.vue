@@ -147,7 +147,9 @@
                   <a-select-option value="false">false</a-select-option>
                 </a-select>
                 <a-input-number v-else-if="pv.valueType==='NUMBER'" v-model="pv.value" style="width: 100%"/>
-                <a-date-picker v-else-if="pv.valueType==='DATE'" show-time style="width: 100%"/>
+                <a-date-picker v-else-if="pv.valueType==='DATE'"
+                               @change="(date,dateString)=>(datePickerChange(pv,date,dateString))"
+                               v-model="pv.value" show-time style="width: 100%"/>
                 <a-input v-else v-model="pv.value"></a-input>
               </a-col>
             </a-row>
@@ -170,6 +172,7 @@ import StandardTable from '@/components/table/StandardTable'
 
 import {functionList, selectFunctionById, runFunction} from '@/services/function'
 import {getValueTypeName} from "@/utils/value-type";
+import moment from "moment/moment";
 
 const columns = [
   {
@@ -254,6 +257,9 @@ export default {
     }
   },
   methods: {
+    datePickerChange(v, date) {
+      v.value = moment(date).format('YYYY-MM-DD HH:mm:ss');
+    },
     getValueTypeName(valueType) {
       return getValueTypeName(valueType)
     },

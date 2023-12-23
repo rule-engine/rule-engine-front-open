@@ -239,6 +239,8 @@
                     <a-input-number v-else-if="pv.valueType==='NUMBER'"
                                     v-model="pv.value" style="width: 100%"/>
                     <a-date-picker v-else-if="pv.valueType==='DATE'"
+                                   v-model="pv.value"
+                                   @change="(date,dateString)=>(datePickerChange(pv,date,dateString))"
                                    show-time style="width: 100%"/>
                     <a-input v-else v-model="pv.value"></a-input>
                   </a-form-model-item>
