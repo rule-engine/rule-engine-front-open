@@ -247,21 +247,16 @@
                         >
                           <a-select-option value="PARAMETER">参数</a-select-option>
                           <a-select-option value="VARIABLE">变量</a-select-option>
-                          <a-select-option value="BOOLEAN"
-                                           v-if="generalRule.action.valueType==='BOOLEAN'">布尔
+                          <a-select-option value="BOOLEAN">布尔
                           </a-select-option>
-                          <a-select-option value="COLLECTION"
-                                           v-if="generalRule.action.valueType==='COLLECTION'">
+                          <a-select-option value="COLLECTION">
                             集合
                           </a-select-option>
-                          <a-select-option value="STRING"
-                                           v-if="generalRule.action.valueType==='STRING'">字符串
+                          <a-select-option value="STRING">字符串
                           </a-select-option>
-                          <a-select-option value="NUMBER"
-                                           v-if="generalRule.action.valueType==='NUMBER'">数值
+                          <a-select-option value="NUMBER">数值
                           </a-select-option>
-                          <a-select-option value="DATE"
-                                           v-if="generalRule.action.valueType==='DATE'">日期
+                          <a-select-option value="DATE">日期
                           </a-select-option>
                         </a-select>
                       </a-form-model-item>
