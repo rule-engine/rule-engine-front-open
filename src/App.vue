@@ -86,7 +86,11 @@ export default {
   }
 }
 </script>
-
+<style>
+.ant-table-body {
+  overflow: auto !important;
+}
+</style>
 <style lang="less" scoped>
   #id{
   }
