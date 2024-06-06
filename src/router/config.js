@@ -130,6 +130,14 @@ const options = {
                             },
                             component: () => import('@/pages/rulemanagement/generalrule/router'),
                         },
+                        {
+                            path: '/generalRuleView/:id/:version',
+                            name: '规则(...)',
+                            meta: {
+                                invisible: true
+                            },
+                            component: () => import('@/pages/rulemanagement/generalrule/view'),
+                        },
                     ]
                 },
                 {

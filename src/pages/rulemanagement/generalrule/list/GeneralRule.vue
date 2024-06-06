@@ -59,7 +59,7 @@
                  style="cursor: pointer;padding: 0 6px">
             开发<!--开发中没有版本-->
           </a-tag>
-          <a-tag v-else-if="record.status===1" color="orange" @click="show(record)"
+          <a-tag v-else-if="record.status===1" color="orange" @click="showTest(record)"
                  style="cursor: pointer;padding: 0 6px">
             测试({{ record.currentVersion }})
           </a-tag>
@@ -692,20 +692,29 @@ export default {
       this.dataSource = this.dataSource.filter(item => item.key !== key)
     },
     show(record) {
+      // 发布中规则跳转
+      this.$openPage({
+        path: '/generalRuleView/' + record.id + "/" + record.publishVersion
+      }, `规则(${record.name})`);
+    },
+    showTest(record) {
+      // 开发中规则跳转
       this.$openPage({
         path: '/generalRuleRouter/' + record.id,
         query: {pageIndex: 3}
       }, `规则(${record.name})`);
     },
     edit(record) {
-      if (record.status === 1 || record.status === 2) {
-        this.show(record);
-      } else {
-        this.$openPage({
-          path: '/generalRuleRouter/' + record.id,
-          query: {pageIndex: 2}
-        }, `规则(${record.name})`);
+      // 编辑中，进入编辑页面
+      let pageIndex = 2;
+      if (record.status === 1) {
+        // 规则预览发布页面
+        pageIndex = 3;
       }
+      this.$openPage({
+        path: '/generalRuleRouter/' + record.id,
+        query: {pageIndex: pageIndex}
+      }, `规则(${record.name})`);
     },
     downloadGeneralRule(record) {
       this.download.query.query.id = record.id;

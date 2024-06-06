@@ -1,7 +1,7 @@
 <template>
   <div>
     <page-layout>
-      <a-card title="规则预览发布" :bordered="false">
+      <a-card :title="`规则预览(${$route.params.version})`" :bordered="false" :loading="loading">
         <span slot="extra" style="margin-left: 16px;">
               <a-popover trigger="click" arrow-point-at-center
                          overlayClassName="runTest">
@@ -12,11 +12,14 @@
                                       style="font-size: 16px;"></a-icon>
 
                               <a-form-model>
-                                  <a-form-model-item label="接口" style="margin-bottom: 8px;">
+                                <a-form-model-item label="接口" style="margin-bottom: 8px;">
                                         <a-input v-model="request.url" readOnly/>
                                   </a-form-model-item>
-                                       <a-form-model-item label="参数" style="margin-bottom: 8px;">
-                                        <a-textarea v-model="request.requestJson" readOnly :rows="10"/>
+                                  <a-form-model-item label="请求头" style="margin-bottom: 8px;">
+                                        <a-textarea v-model="request.header" readOnly :rows="3"/>
+                                  </a-form-model-item>
+                                  <a-form-model-item label="参数" style="margin-bottom: 8px;">
+                                        <a-textarea v-model="request.requestJson" readOnly :rows="6"/>
                                   </a-form-model-item>
                               </a-form-model>
 
@@ -154,38 +157,29 @@
       </a-card>
     </page-layout>
 
-    <a id="copyParamInfo" style="display: none; " @click="copy($event,(request.url + ' \n' + request.requestJson))"></a>
-
-    <footer-tool-bar>
-      <a-button type="primary" @click="previous()" :loading="footer.loading">进入编辑</a-button>&nbsp;&nbsp;&nbsp;&nbsp;
-      <a-button type="primary" @click="publish()" :loading="footer.loading">发布</a-button>
-    </footer-tool-bar>
+    <a id="copyParamInfo" style="display: none; "
+       @click="copy($event,('POST ' +request.url + ' \n'+'Content-Type: application/json'+ '' +
+        `\nx-workspace: ${generalRule.workspaceCode}\nx-access-key: 略\nx-access-secret: 略 \n\n` + request.requestJson))"></a>
 
   </div>
 </template>
 
 <script>
 
-import FooterToolBar from '@/components/tool/FooterToolBar'
 import PageLayout from "@/layouts/PageLayout";
 
-import {runTest, viewGeneralRule, generalRulePublish} from '@/services/generalRule'
+import {runTest, viewGeneralRule} from '@/services/generalRule'
 import moment from "moment";
 import {mapState} from "vuex";
 import {copy} from '@/utils/clipboardUtil'
 import {getTypeName} from '@/utils/value-type'
 
 export default {
-  name: "Publish.vue",
-  components: {PageLayout, FooterToolBar},
-  props: {
-    id: {
-      type: Number,
-      required: true
-    }
-  },
+  name: "View.vue",
+  components: {PageLayout},
   data() {
     return {
+      loading: true,
       ops: {
         vuescroll: {},
         scrollPanel: {},
@@ -201,11 +195,13 @@ export default {
         }
       },
       generalRule: {
-        id: 226,
+        id: undefined,
         name: null,
-        code: 'ccc2222',
+        code: undefined,
+        status: undefined,
+        version: undefined,
         description: null,
-        workspaceCode: 'test',
+        workspaceCode: null,
         ruleId: null,
         conditionGroup: [],
         action: {
@@ -232,9 +228,6 @@ export default {
           }
         },
       },
-      footer: {
-        loading: false,
-      },
       runTest: {
         run: false,
         percent: 0,
@@ -246,12 +239,16 @@ export default {
       request: {
         url: process.env.VUE_APP_COMPUTE_BASE_URL + "/ruleEngine/generalRule/execute",
         requestJson: null,
+        header: [],
         param: [],
       },
     }
   },
   mounted() {
-    this.generalRule.id = this.id;
+    let params = this.$route.params
+    this.generalRule.id = params.id;
+    this.generalRule.status = params.status;
+    this.generalRule.version = params.version;
     this.getRuleConfig();
   },
   methods: {
@@ -325,7 +322,7 @@ export default {
     getRuleConfig() {
       viewGeneralRule({
         "id": this.generalRule.id,
-        "status": 1
+        "version": this.generalRule.version,
       }).then(res => {
         let da = res.data.data;
         this.generalRule = da;
@@ -337,43 +334,23 @@ export default {
         }
         this.request.requestJson = JSON.stringify({
           "code": da.code,
-          "workspaceCode": da.workspaceCode,
-          "accessKeyId": '略',
-          "accessKeySecret": '略',
-          "param": param
+          "input": param
         }, null, 6);
+        this.request.header = `x-workspace: ${da.workspaceCode}
+x-access-key: 略
+x-access-secret: 略`
         this.request.param = da.parameters;
+        this.loading = false;
       })
-    },
-    previous() {
-      this.$emit("choicePage", {pageIndex: 2, id: this.generalRule.id})
-    },
-    publish() {
-      let id = this.generalRule.id;
-      let _this = this;
-      this.$confirm({
-        title: '发布规则',
-        content: '你确定发布吗，将会导致已发布规则变更！',
-        onOk() {
-          return new Promise((resolve) => {
-            generalRulePublish({
-              id: id
-            }).then(res => {
-              if (res.data.data) {
-                _this.$message.success("规则发布成功");
-                resolve();
-              }
-            })
-          }).catch(() => console.log('Oops errors!'));
-        },
-        onCancel() {
-        },
-      });
     },
     getViewValue(v) {
       // 如果是固定值
       if (v.type === 2) {
         return v.value;
+      }
+      // 表达式
+      if (v.variableType && v.variableType === 4) {
+        return "{ " + v.variableValue + " }";
       }
       // 如果是固定值变量的 变量值
       if (v.variableValue !== null) {
