@@ -94,7 +94,8 @@ export default {
 
       change({id: target.id}).then(res => {
         if (res.data.code === 200) {
-          _this.$router.go(0)
+          // 刷新页面
+          window.location.reload();
         }
       }).finally(() => {
         _this.loading = false
