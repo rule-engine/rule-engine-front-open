@@ -8,7 +8,7 @@
         </a-form-model-item>
 
         <a-form-item label="返回类型" placeholder="请选择">
-          <a-select v-model="query.query.valueType" style="width: 120px">
+          <a-select v-model="query.query.valueType" style="width: 120px" @change="(value)=>this.query.query.valueType = [value]">
             <a-select-option :value="null">全部</a-select-option>
             <a-select-option value="BOOLEAN">布尔</a-select-option>
             <a-select-option value="COLLECTION">集合</a-select-option>
@@ -580,9 +580,6 @@ export default {
     loadVariableList() {
       this.loading = true
       const _this = this;
-      if (this.query.query.valueType && this.query.query.valueType !== "") {
-        this.query.query.valueType = [this.query.query.valueType];
-      }
       listVariable(this.query).then(res => {
         const resp = res.data;
         if (resp.data) {
