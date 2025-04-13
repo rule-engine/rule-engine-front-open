@@ -18,7 +18,7 @@ module.exports = {
     cachePage: true,                      //是否缓存页面数据，仅多页签模式下生效，true 缓存, false 不缓存
     hideSetting: true,                   //隐藏设置抽屉，true:隐藏，false:不隐藏
     systemName: 'Rule Engine',         //系统名称
-    copyright: '2020-2021 规则引擎(ruleengine.cn) All Rights Reserved',     //copyright
+    copyright: '2020-2025 规则引擎(ruleengine.cn) All Rights Reserved',     //copyright
     // 京ICP备2020034246号-1 备案号
     asyncRoutes: false,                   //异步加载路由，true:开启，false:不开启
     showPageTitle: false,                  //是否显示页面标题（PageLayout 布局中的页面标题），true:显示，false:不显示
