@@ -29,8 +29,8 @@ module.exports = {
         direction: 'left'                   //动画方向，切换页面时动画的方向，参考 ./animate.config.js
     },
     footerLinks: [                        //页面底部链接，{link: '链接地址', name: '名称/显示文字', icon: '图标，支持 ant design vue 图标库'}
-        {link: 'https://github.com/dingqianwen/rule-engine-front-open', name: '后台源码'},
-        {link: 'https://github.com/dingqianwen/rule-engine-front-open', icon: 'github'},
-        {link: 'https://github.com/dingqianwen/rule-engine-front-open', name: '文档'}
+        {link: 'https://gitee.com/aizuda/rule-engine-open', name: '后台源码'},
+        {link: 'https://github.com/dingqianwen', icon: 'Github'},
+        {link: 'http://ruleengine.cn/doc/', name: '文档'}
     ],
 }
