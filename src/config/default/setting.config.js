@@ -30,7 +30,7 @@ module.exports = {
     },
     footerLinks: [                        //页面底部链接，{link: '链接地址', name: '名称/显示文字', icon: '图标，支持 ant design vue 图标库'}
         {link: 'https://gitee.com/aizuda/rule-engine-open', name: '后台源码'},
-        {link: 'https://github.com/dingqianwen', icon: 'Github'},
+        {link: 'https://github.com/dingqianwen', icon: 'github'},
         {link: 'http://ruleengine.cn/doc/', name: '文档'}
     ],
 }
